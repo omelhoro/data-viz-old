@@ -1,0 +1,29 @@
+div.corpus_viz
+		div.corpus_menu
+				div.row
+					div.col-lg-6
+						h4 Y-tags 
+						div.input-group
+							span.input-group-addon By Regex
+							input.form-control.yregex(size=5)
+						div.input-group
+							span.input-group-addon From
+							input.form-control.startrange(type=number value=0)
+						div.input-group
+							span.input-group-addon To
+							input.form-control.endrange(type=number value=30)
+						button.btn.btn-default.submfiltery Filter!
+					div.col-lg-6
+						h4 Categories
+						div.viz
+						div.catfilters
+							ul.list-group
+								- each p in [['logged','Logged'],['shared','Shared'],['totals','Totals']]
+										li.list-group-item
+												label
+													input(name='quaview',value='#{p[0]}',checked,type='radio')
+													| #{p[1]}
+		script(type='text/javascript', src='target/js/corpus.js')
+
+
+
