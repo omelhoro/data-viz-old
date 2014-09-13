@@ -1,9 +1,11 @@
-di{
-	border: 1px solid black;
-
+/*rhythm*/
+div#options{
+    float:right;
+    margin: 10px;
 }
+
 svg{
-	border: 1px solid black;
+	border: 1px solid grey;
 
 }
 
@@ -78,8 +80,7 @@ path{
 }
 path.domain{
 		shape-rendering: crispEdges;
-		stroke: blue;
-		stroke-dasharray:20,5;
+		stroke: grey;
 }
 
 /* for debugging heat map*/
