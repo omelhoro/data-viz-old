@@ -1,5 +1,17 @@
+makeParsers= (d) ->
+	parsers= {}
+	for k,v of d[0]
+		parsers[k.trim()] = switch k.trim().slice(-1)
+			when "f" then (i) -> Math.round(parseFloat(i)*100)/100
+			when "i" then (i) -> parseInt(i)
+			when "s" then (s) -> s
+			when "b" then (s) -> s
+			when "p" then (i) -> Math.round(parseFloat(i)*100)
+	parsers
+
 class Session
-	constructor: (data,bio_data) ->
+
+	constructor: (@data,@bio_data) ->
 		@HE=500
 		@WI=500
 		@PAD=70
@@ -10,21 +22,17 @@ class Session
 			width: @WI,
 			height: @HE
 			})
-		@bio_data=bio_data
 		@y_scale=@x_scale=""
 		@subData=@subPaths=""
 		@x_axisLabel=@x_axisLabel=""
-		@data= data
 		@_set_scales()
 		#@_draw_axes()
 		@color= d3.scale.category10()
 		#@_draw_axes()
 		@_makeHandlers()
-
-
+		console.log @bio_data
 
 	_set_scales: (xmin=25,xmax=100,xlabel,ymin=25,ymax=100,ylabel) ->
-		console.log xlabel,ylabel,@imp_keys.concat(["meanC","meanV"])
 		if xlabel not in @imp_keys_exp
 			xmin= 25
 			xmax= 100
@@ -137,18 +145,21 @@ class Session
 				strokeWidth:2
 				})
 
-
 	_addBioData: ->
+		ps=makeParsers(@bio_data)
+		console.log ps
 		partsData= (key for key,_ of @data)
 		for obj in @bio_data
-			part= obj["ID"]+"_k"
+			part= obj["index_i"]+"_k"
 			if part in partsData
-				for k in @imp_keys
-					@data[part]["start"][k]=parseFloat(obj[k])
-					@data[part]["end"][k]=parseFloat(obj[k])
-
-
-
+				console.log obj
+				for k,v of obj
+					fp=ps[k]
+					knm=k.slice(0,-2)
+					console.log knm,v
+					if knm in @imp_keys
+						@data[part]["start"][knm]=fp(v)
+						@data[part]["end"][knm]=fp(v)
 
 	_makeHandlers: () ->
 		@_addBioData()
@@ -193,9 +204,6 @@ class Session
 	###
 
 
-d3.csv("/static/data/lima_bio.csv", (data)=>
-	session= new Session(rhythmPart,data))
-
-
-
-
+d3.json("./static/data/rhythm_single.json",(rhythm_data) ->
+	d3.csv("./static/data/lima_bio.csv", (bio_data)=>
+		session= new Session(rhythm_data,bio_data)))
