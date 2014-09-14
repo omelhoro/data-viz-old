@@ -89,7 +89,7 @@ class HeatView
 		@update=false
 
 	_renderSvgBodyAxes: ->
-		svg= d3.select("#map")
+		svg= d3.select(MAPCONTAINER)
 			.append("svg")
 				.attr {
 					height:@HE

@@ -38,7 +38,7 @@ input#x_axis:nth-of-type(1) {
     color: orange;
 
 }
-rect:hover{
+.d3 * rect:hover{
     fill: orange;
 }
 
@@ -70,7 +70,7 @@ td{
 }
 
 /*Corpus class */
-path{
+.d3 * path{
 		fill: None;
 
 }

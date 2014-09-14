@@ -18,7 +18,7 @@ class Session
 		@update=false
 		@imp_keys= ["ger_years","notger_years","toksec","task2cor","speechrate","artrate"]
 		@imp_keys_exp=@imp_keys.concat(["meanC","meanV"])
-		@svg=d3.select("div#map").append("svg").attr({
+		@svg=d3.select(MAPCONTAINER).append("svg").attr({
 			width: @WI,
 			height: @HE
 			})
@@ -30,7 +30,6 @@ class Session
 		@color= d3.scale.category10()
 		#@_draw_axes()
 		@_makeHandlers()
-		console.log @bio_data
 
 	_set_scales: (xmin=25,xmax=100,xlabel,ymin=25,ymax=100,ylabel) ->
 		if xlabel not in @imp_keys_exp
@@ -147,16 +146,13 @@ class Session
 
 	_addBioData: ->
 		ps=makeParsers(@bio_data)
-		console.log ps
 		partsData= (key for key,_ of @data)
 		for obj in @bio_data
 			part= obj["index_i"]+"_k"
 			if part in partsData
-				console.log obj
 				for k,v of obj
 					fp=ps[k]
 					knm=k.slice(0,-2)
-					console.log knm,v
 					if knm in @imp_keys
 						@data[part]["start"][knm]=fp(v)
 						@data[part]["end"][knm]=fp(v)
@@ -165,7 +161,6 @@ class Session
 		@_addBioData()
 		keys= (k for k,v of @data["112199_k"]["start"] when k not in @imp_keys_exp)
 		keys= keys.sort()
-		console.log @data,keys
 		options= $("<div id='options'>")
 		axesTabs= $("<table>")
 		tabHeader= $("<tr><td>X-Axis</td><td>Cat</td><td>Y-Axis</td></tr>")
@@ -190,20 +185,15 @@ class Session
 			catRow=$("<tr>").append(xaxis).append(cat).append(yaxis)
 			axesTabs.append(catRow)
 		#bio_keys= (@bio_data[0])
-		$("#map").append(options.append(axesTabs))
+		$(MAPCONTAINER).append(options.append(axesTabs))
 		$("input[name=y_axis]").last().click()
 		$("input[type='radio']").change( (e) =>
 			@_makeSubset()
 			)
 		$("input[name=x_axis]").last().click()
 		@update=true
-	###
-	perif_data: () ->
-		c=d3.csv("data/lima_bio.csv", (data) => console.log @bio_data=data) 
-		console.log @bio_data,d3.csv("data/lima_bio.csv")
-	###
 
 
-d3.json("./static/data/rhythm_single.json",(rhythm_data) ->
+d3.json("./static/data/lima_rhythm_single.json",(rhythm_data) ->
 	d3.csv("./static/data/lima_bio.csv", (bio_data)=>
 		session= new Session(rhythm_data,bio_data)))

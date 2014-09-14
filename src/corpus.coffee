@@ -1,3 +1,4 @@
+            
 class TextMatrix
 	constructor: ([@header,@values])->
 		@max=d3.max (d3.max(v[1]) for v in @values)
@@ -345,7 +346,7 @@ load_csv = ->
 			values.push [obj.index,(parseFloat(v) for k,v of obj when k!="index")]
 		[header,values]
 
-	d3.csv corpus_src , (data) ->
+	d3.csv data_src , (data) ->
 		tm= new TextMatrix(reformat(data))
 		view= new TextMatrixViz(tm,600,600,80,50)
 		viewMenu= new Handlers(view,tm)

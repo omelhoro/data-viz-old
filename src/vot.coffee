@@ -1,6 +1,6 @@
 under=_
 class Session
-	constructor: (data) ->
+	constructor: (@data) ->
 		@HE=500
 		@WI=500
 		@PAD=70
@@ -8,18 +8,9 @@ class Session
 		@chart=""
 		@partAr=(k for k,_ of data)
 		@txt=""
-
-		###
-		@svg=d3.select("div#map").append("svg").attr({
-			width: @WI,
-			height: @HE
-			})
-		###
 		@y_scale=@x_scale=""
 		@subData={}
 		@x_axisLabel=@x_axisLabel=""
-		@data= data
-		#@_draw_axes()
 		@color= d3.scale.category10()
 		@_makeHandlers()
 
@@ -94,7 +85,6 @@ class Session
 			options.append(cons)
 		$("#map").append(options)
 		$("input[type='radio']").click( (e) =>
-			console.log e.target
 			#@_makeSubset($(e.target).val())
 			subData= @subData[$(e.target).val()]
 			@draw(subData)
@@ -102,9 +92,7 @@ class Session
 		$("input[name='con']").first().click()
 		@update= true
 		okeys= ((vv.length for kk,vv of v) for k,v of @data)
-		console.log okeys
 		#okeys= under.zip(*okeys)
-		console.log okeys
 		okeys.push(keys)
 		parts= ({sTitle:k} for k,_ of @data )
 		#okeys=(ar.push(keys[i]) for ar,i in okeys )
@@ -148,6 +136,5 @@ class Session
 					})
 				.text( (d,i) => @partAr[i]+ ": " +d.length)
 
-session= new Session(votBoxplot)
-
-
+d3.json("./static/data/lima_vot_group_vals.json", (data) ->
+    session= new Session(data))
