@@ -7,12 +7,16 @@ html(lang='en')
         link(rel='stylesheet', type='text/css', href='static/css/lima.css')
         script(type='text/javascript',src='static/js/jquery.js')
         script(type='text/javascript',src='static/js/d3.js')
-    body
-        style body{background-color:transparent;max-width:800px;margin:auto; };
-        ul.nav.nav-pills.viz_menu
-        div.viz-map
+        script(type='text/javascript',src='static/js/underscore-min.js')
+        script(type='text/javascript',src='https://www.google.com/jsapi')
         script(type='text/javascript').
-                corpus_src='static/public_data/syl_subset.csv'
+            google.load('visualization', '1.1', {'packages':['annotationchart','corechart','treemap','orgchart']})
+    body
+        style body{background-color:transparent;max-width:800px;margin:auto; }
+        ul.nav.nav-pills.viz_menu
+        div#chart_wrapper
+            script(type='text/javascript') MAPCONTAINER='div#chart_div'
+            div#chart_div
         script(type='text/javascript',src='static/js/bootstrap.min.js')
         script(type='text/javascript',src='target/js/main.js')
 
