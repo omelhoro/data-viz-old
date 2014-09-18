@@ -6,7 +6,7 @@
 
   MAPS = {
     kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
-    rhythm_dyn: ["Rhythm2", ['', "<button id='next-part' class='inter-chart'>Next participant</button> <button id='toggle-basis' class='inter-chart'>Toggle letter-class</button>"]],
+    rhythm_dyn: ["Rhythm2", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button> <button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
     rhythm: ["Rhythm", ['d3', '']],
     vot: ["VOT", ["d3 TODO: fixplot", '']],
     heatplot: ["Cards", ["d3", '']],

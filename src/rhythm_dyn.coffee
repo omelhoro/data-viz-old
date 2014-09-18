@@ -32,7 +32,7 @@ stats = (a1,a2)->
 r=stats([1..5])
 console.log [r.mean(),r.dev(),r.varco(),r.npvi(),r.rpvi()]
 
-lineChart= (a,r=5) ->
+lineChart= (a,r=10) ->
     range=(x for x in [0..a.length] by r)
     pairs_a=d3.pairs(range)
     r=([i].concat(rhythmMetric(stats(a.slice(e[0],e[1])))) for e,i in pairs_a)
@@ -43,31 +43,51 @@ lineChart= (a,r=5) ->
 getArray = (i,isVow,data)->
     k=Object.keys(data)[i]
     if isVow
-        a= data[k].v
+        a= [data[k].start.v,data[k].end.v]
     else
-        a= data[k].c
+        a= [data[k].start.c,data[k].end.c]
     [k,a]
 
-update_chart = (chart,data,opts) ->
+update_chart = (charts,data,opts) ->
     i=1
+    nbin=5
+    d={i:1,nbin:5,isVow:false}
+    draw_charts = ->
+        [k,a]=getArray(d.i,d.isVow,data)
+        [s,e]=calc_start_end(a,d.nbin)
+        let_type= if d.isVow then "Vowel" else "Consonant"
+        opts.title="#{k}-Start-#{let_type}"
+        charts[0].draw(s,opts)
+        opts.title="#{k}-End-#{let_type}"
+        charts[1].draw(e,opts)
+
     isVow=true
     ($ ".inter-chart").click (e) ->
         t=e.target
         id= $(t).prop("id")
         if id=="next-part"
-            i++
+            d.i++
         else
-            isVow=not isVow
-        [k,a]=getArray(i,isVow,data)
-        d=lineChart(a)
-        opts.title=k
-        chart.draw(d,opts)
+            d.isVow=not d.isVow
+        draw_charts()
+    ($ ".bin-update").click (e) ->
+        d.nbin=parseInt(($ ".nbin-field").val())
+        draw_charts()
+
+calc_start_end = (d,n=5) ->
+    [lineChart(d[0],n),lineChart(d[1],n)]
+
+update_opts= (o,n,v) ->
+    o[n]=v
+    o
 
 d3.json("./static/data/lima_rhythm_single_raw.json", (data) ->
     [k,a]=getArray(0,true,data)
-    d=lineChart(a)
-    chart = new google.visualization.LineChart(document.getElementById('chart_div'))
+    [startd,endd]=calc_start_end(a)
+    chartStart = new google.visualization.LineChart(document.getElementById('chart_div'))
+    chartEnd = new google.visualization.LineChart(document.getElementById('chart_div_end'))
     opts={title:k,vAxis: {maxValue:150},animation:{duration: 500}}
-    google.setOnLoadCallback(chart.draw(d,opts))
-    update_chart(chart,data,opts)
+    google.setOnLoadCallback(chartStart.draw(startd,update_opts(opts,"title","Start")))
+    google.setOnLoadCallback(chartEnd.draw(endd,update_opts(opts,"title","End")))
+    update_chart([chartStart,chartEnd],data,opts)
 )
