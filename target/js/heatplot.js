@@ -509,12 +509,12 @@
   })();
 
   dataY = function(callback) {
-    return d3.csv("/static/data/lima_bio.csv", callback);
+    return d3.csv("./static/data/lima_bio.csv", callback);
   };
 
   dataMain = function(dataSecY) {
-    return d3.csv("/static/data/wordfreq_t2.csv", function(dataSecX) {
-      return d3.text("/static/data/card_slides.csv", function(data) {
+    return d3.csv("./static/data/wordfreq_t2.csv", function(dataSecX) {
+      return d3.text("./static/data/card_slides.csv", function(data) {
         var handler, matrix, view;
         data = d3.csv.parseRows(data);
         matrix = new Matrix(data, dataSecX, dataSecY);

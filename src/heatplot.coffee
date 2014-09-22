@@ -325,11 +325,11 @@ class Handler
 		@mv.render()
 		@setButtons()
 
-dataY= (callback) -> d3.csv("/static/data/lima_bio.csv",callback)
+dataY= (callback) -> d3.csv("./static/data/lima_bio.csv",callback)
 
 dataMain= (dataSecY) ->
-	d3.csv "/static/data/wordfreq_t2.csv", (dataSecX) ->
-		d3.text "/static/data/card_slides.csv", (data) ->
+	d3.csv "./static/data/wordfreq_t2.csv", (dataSecX) ->
+		d3.text "./static/data/card_slides.csv", (data) ->
 			data= d3.csv.parseRows(data)
 			matrix= new Matrix(data,dataSecX,dataSecY)
 			view= new HeatView(matrix,500,700,50)
