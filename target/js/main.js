@@ -8,7 +8,7 @@
     kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
     rhythm_dyn: ["Rhythm2", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button> <button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
     rhythm: ["Rhythm", ['d3', '']],
-    vot: ["VOT", ["d3 TODO: fixplot", '']],
+    vot: ["VOT", ["d3 TODO: fixplot", 'html']],
     heatplot: ["Cards", ["d3", '']],
     formants: ["Formants", ["d3", '']],
     corpus_of_words: ["Child Corpus", ['d3', "html<script type='text/javascript'>data_src='./static/data/lima_corpus_group_lemmas.csv'</script>"]],
@@ -79,7 +79,7 @@
     create_menu([]);
   }
 
-  instant = 'kosovo_tree';
+  instant = 'vot';
 
   ($("#" + instant)).click();
 
