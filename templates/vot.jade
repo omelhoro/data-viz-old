@@ -1,10 +1,17 @@
-div#map.d3
+script(type="text/javascript").
+    function iqr(k) {
+      return function(d, i) {
+          var q1 = d.quartiles[0],
+                  q3 = d.quartiles[2],
+                          iqr = (q3 - q1) * k,
+                                  i = -1,
+                                          j = d.length;
+                                              while (d[++i] < q1 - iqr);
+                                                  while (d[--j] > q3 + iqr);
+                                                      return [i, j];
+                                                          };};
 
-
-link(rel="stylesheet" type="text/css" href="/static/css/box.css")
-script(type="text/javascript" src="/static/data/part_name_vot.js")
-script(type="text/javascript" src="/static/js/underscore-min.js")
-script(type="text/javascript" src="/static/data/boxplot_vot.js")
-script(type="text/javascript" src="/static/data/group_name_vot.js")
-script(type="text/javascript" src="/static/js/box.js")
-script(type="text/javascript" src="target/js/vot.js")
+link(rel="stylesheet" type="text/css" href="./static/css/box.css")
+script(type="text/javascript" src="./static/js/underscore-min.js")
+script(type="text/javascript" src="./static/data/boxplot_vot.js")
+script(type="text/javascript" src="./static/js/box.js")

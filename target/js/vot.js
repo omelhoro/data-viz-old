@@ -102,10 +102,10 @@
       options = $("<div id='options'>");
       for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
         k = keys[_j];
-        cons = $("<input type='radio' name='con' value='" + k + "'>" + k + "<br>");
+        cons = $("<label><input type='radio' name='con' value='" + k + "'>" + k + "</label></br>");
         options.append(cons);
       }
-      $("#map").append(options);
+      $(MAPCONTAINER).append(options);
       $("input[type='radio']").click((function(_this) {
         return function(e) {
           var subData;
@@ -162,7 +162,7 @@
           };
         })(this));
       } else {
-        this.chart = d3.select("#map").selectAll("svg").data(subData["votAr"]).enter().append("svg").attr({
+        this.chart = d3.select(MAPCONTAINER).selectAll("svg").data(subData["votAr"]).enter().append("svg").attr({
           "class": "box",
           title: (function(_this) {
             return function(d, i) {
@@ -174,7 +174,7 @@
         }).append("g").attr({
           transform: "translate(50,10)"
         }).call(chart);
-        return this.txt = d3.select("#map").selectAll("svg").data(subData["votAr"]).append("text").attr({
+        return this.txt = d3.select(MAPCONTAINER).selectAll("svg").data(subData["votAr"]).append("text").attr({
           y: 10,
           x: 10
         }).text((function(_this) {

@@ -81,9 +81,9 @@ class Session
 			@subData[k]=@_makeSubset(k)
 		options= $("<div id='options'>")
 		for k in keys
-			cons= $("<input type='radio' name='con' value='#{k}'>#{k}<br>")
+			cons= $("<label><input type='radio' name='con' value='#{k}'>#{k}</label></br>")
 			options.append(cons)
-		$("#map").append(options)
+		$(MAPCONTAINER ).append(options)
 		$("input[type='radio']").click( (e) =>
 			#@_makeSubset($(e.target).val())
 			subData= @subData[$(e.target).val()]
@@ -115,7 +115,7 @@ class Session
 			@chart.data(subData["votAr"]).call(chart)
 			@txt.data(subData["votAr"]).text( (d,i) => @partAr[i]+ ": " +d.length)
 		else
-			@chart=d3.select("#map").selectAll("svg").data(subData["votAr"]).enter()
+			@chart=d3.select(MAPCONTAINER).selectAll("svg").data(subData["votAr"]).enter()
 				.append("svg")
 				.attr({
 					class: "box"
@@ -128,7 +128,7 @@ class Session
 					transform: "translate(50,10)"
 					})
 				.call(chart)
-			@txt= d3.select("#map").selectAll("svg").data(subData["votAr"])
+			@txt= d3.select(MAPCONTAINER).selectAll("svg").data(subData["votAr"])
 				.append("text")
 				.attr({
 					y:10
