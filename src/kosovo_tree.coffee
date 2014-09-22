@@ -1,9 +1,11 @@
 d3.json("./static/data/resp_kosovo_tree.json",(data) ->
     chart = new google.visualization.TreeMap(document.getElementById('chart_div'))
-    d = google.visualization.arrayToDataTable(data)
+    data1=[data[0].concat("N")].concat((a.concat(0) for a in data.slice(1)))
+    console.log data1
+    d = google.visualization.arrayToDataTable(data1)
     opts={animation:{duration: 300}}
     google.setOnLoadCallback(chart.draw(d,opts))
-
+    console.log data
     chart1 = new google.visualization.OrgChart(document.getElementById('chart_div_org'))
     d = google.visualization.arrayToDataTable(data)
     opts={size:"small",allowCollapse:true,animation:{duration: 300}}

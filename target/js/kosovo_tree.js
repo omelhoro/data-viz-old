@@ -3,15 +3,27 @@
   var makeData;
 
   d3.json("./static/data/resp_kosovo_tree.json", function(data) {
-    var chart, chart1, d, opts;
+    var a, chart, chart1, d, data1, opts;
     chart = new google.visualization.TreeMap(document.getElementById('chart_div'));
-    d = google.visualization.arrayToDataTable(data);
+    data1 = [data[0].concat("N")].concat((function() {
+      var _i, _len, _ref, _results;
+      _ref = data.slice(1);
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        a = _ref[_i];
+        _results.push(a.concat(0));
+      }
+      return _results;
+    })());
+    console.log(data1);
+    d = google.visualization.arrayToDataTable(data1);
     opts = {
       animation: {
         duration: 300
       }
     };
     google.setOnLoadCallback(chart.draw(d, opts));
+    console.log(data);
     chart1 = new google.visualization.OrgChart(document.getElementById('chart_div_org'));
     d = google.visualization.arrayToDataTable(data);
     opts = {
