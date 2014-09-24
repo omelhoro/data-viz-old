@@ -5,7 +5,7 @@
   $ = jQuery;
 
   MAPS = {
-    kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
+    kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><p>This plot shows how many documents were found in relation to the time and events of the Kosovo-Case. Every month is divided in two halfs, so 15. of the month means second part.</p><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
     rhythm_dyn: ["Rhythm2", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button> <button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
     rhythm: ["Rhythm", ['d3', '']],
     vot: ["VOT", ["d3 TODO: fixplot", 'html']],
