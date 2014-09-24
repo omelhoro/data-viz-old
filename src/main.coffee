@@ -18,6 +18,7 @@ chart_wrapper=($ "#chart_wrapper")
 append_map = (target,el) ->
             chart_wrapper.empty()
             [name,[viz_class,content]]=MAPS[target]
+            console.log name,viz_class,content,MAPS[target]
             dom_target=($ "<div id=chart_div></div>")
             chart_wrapper.append(dom_target)
             dom_target.prop("class","").prop("style","")
@@ -25,8 +26,9 @@ append_map = (target,el) ->
             js_lnk=$ "<script type='text/javascript' src='target/js/#{js_target}.js'></script>"
             dom_target.addClass(viz_class)
             ($ '.nav > li').each (i,e) -> ($ e).removeClass('active')
+            # console.log content.indexOf("html")
             el?.addClass "active"
-            if content.startsWith("html")
+            if content.indexOf("html")==0
                 content=content.slice(4)
                 $.get "target/#{js_target}.html", (d) ->
                     dom_target.html d

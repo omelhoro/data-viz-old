@@ -23,6 +23,7 @@
     var content, dom_target, js_lnk, js_target, name, viz_class, _ref, _ref1;
     chart_wrapper.empty();
     _ref = MAPS[target], name = _ref[0], (_ref1 = _ref[1], viz_class = _ref1[0], content = _ref1[1]);
+    console.log(name, viz_class, content, MAPS[target]);
     dom_target = $("<div id=chart_div></div>");
     chart_wrapper.append(dom_target);
     dom_target.prop("class", "").prop("style", "");
@@ -35,7 +36,7 @@
     if (el != null) {
       el.addClass("active");
     }
-    if (content.startsWith("html")) {
+    if (content.indexOf("html") === 0) {
       content = content.slice(4);
       $.get("target/" + js_target + ".html", function(d) {
         return dom_target.html(d);
