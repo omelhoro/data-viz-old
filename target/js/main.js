@@ -8,11 +8,11 @@
     kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
     rhythm_dyn: ["Rhythm2", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button> <button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
     rhythm: ["Rhythm", ['d3', '']],
-    vot: ["VOT", ["d3 TODO: fixplot", 'html']],
-    heatplot: ["Cards", ["d3", '']],
-    formants: ["Formants", ["d3", '']],
-    corpus_of_words: ["Child Corpus", ['d3', "html<script type='text/javascript'>data_src='./static/data/lima_corpus_group_lemmas.csv'</script>"]],
-    corpus_of_syl: ["Syllables", ['d3', "html<script type='text/javascript'>data_src='./static/public_data/syl_subset.csv'</script>"]]
+    vot: ["VOT", ["d3 TODO: fixplot", 'htmlj']],
+    heatplot: ["Cards", ["d3", 'html_']],
+    formants: ["Formants", ["d3", 'html_']],
+    corpus_of_words: ["Child Corpus", ['d3', "htmlj<script type='text/javascript'>forerun_src='templates/corpus_of_words.html';predef=[['Task 4','*4'],['Task 5','*5'],['Task 6','*6']];data_src='./static/data/lima_corpus_group_lemmas.csv'</script>"]],
+    corpus_of_syl: ["Syllables", ['d3', "htmlj<script type='text/javascript'>forerun_src='templates/corpus_of_sylls.html';predef=[['Russian influenced models','1|2|3'],['Western influenced models','4|5']];data_src='./static/public_data/syl_subset.csv'</script>"]]
   };
 
   menu = $(".viz_menu");
@@ -20,7 +20,7 @@
   chart_wrapper = $("#chart_wrapper");
 
   append_map = function(target, el) {
-    var content, dom_target, js_lnk, js_target, name, viz_class, _ref, _ref1;
+    var content, dir, dom_target, js_lnk, js_target, name, viz_class, _ref, _ref1;
     chart_wrapper.empty();
     _ref = MAPS[target], name = _ref[0], (_ref1 = _ref[1], viz_class = _ref1[0], content = _ref1[1]);
     console.log(name, viz_class, content, MAPS[target]);
@@ -37,8 +37,9 @@
       el.addClass("active");
     }
     if (content.indexOf("html") === 0) {
-      content = content.slice(4);
-      $.get("target/" + js_target + ".html", function(d) {
+      dir = content[4] === "j" ? 'target' : 'templates';
+      content = content.slice(5);
+      $.get("" + dir + "/" + js_target + ".html", function(d) {
         return dom_target.html(d);
       });
     }
@@ -80,7 +81,7 @@
     create_menu([]);
   }
 
-  instant = 'kosovo_tree';
+  instant = 'corpus_of_words';
 
   ($("#" + instant)).click();
 

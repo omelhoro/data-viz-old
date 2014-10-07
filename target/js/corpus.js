@@ -135,7 +135,7 @@
       var itm, v;
       v = (function() {
         var _i, _len, _ref, _results;
-        _ref = this.values;
+        _ref = this.origin;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           itm = _ref[_i];
@@ -204,13 +204,16 @@
       this._addShares();
       this._bashSelect();
       this._yFilter();
+      this.predefs();
+      this.insertContent();
     }
 
     Handlers.prototype._yFilter = function() {
       return $(".submfiltery").click((function(_this) {
         return function(e) {
-          var end, f, startI;
-          f = filterFunc($(".yregex").val());
+          var end, f, regex, startI;
+          regex = $(".yregex").val();
+          f = filterFunc(regex);
           startI = parseInt($(".startrange").val());
           end = parseInt($(".endrange").val());
           _this.tm.filterY(f);
@@ -246,6 +249,14 @@
       })(this));
     };
 
+    Handlers.prototype.insertContent = function() {
+      if (typeof forerun_src !== "undefined" && forerun_src !== null) {
+        return $.get(forerun_src, function(d) {
+          return $(".forerun").html(d);
+        });
+      }
+    };
+
     Handlers.prototype._bashSelect = function() {
       this.tinp = $(".catregex");
       return $(".submcatregex").click((function(_this) {
@@ -257,6 +268,28 @@
       })(this));
     };
 
+    Handlers.prototype.predefs = function() {
+      var but, e, pre_menu, _i, _len, _results;
+      pre_menu = $('.predef_sel');
+      _results = [];
+      for (_i = 0, _len = predef.length; _i < _len; _i++) {
+        e = predef[_i];
+        but = $("<button data-regex='" + e[1] + "'>" + e[0] + "</button>");
+        but.click((function(_this) {
+          return function(e) {
+            var f, first_vis, r, visibs;
+            r = $(e.target).data('regex');
+            f = filterFunc(r);
+            _this.filterVis(f);
+            visibs = $("input[name='visib']").filter(":checked");
+            return first_vis = $(visibs[0]).data("pointer");
+          };
+        })(this));
+        _results.push(pre_menu.append(but));
+      }
+      return _results;
+    };
+
     Handlers.prototype.filterVis = function(f) {
       return $("input[name='visib']").each((function(_this) {
         return function(i, e) {
@@ -264,7 +297,6 @@
           $e = $(e);
           t = $e.data("pointer");
           if (f(t)) {
-            console.log(t);
             $e.prop("checked", true);
             return _this.tmv.activate(1, 500, i);
           } else {
@@ -452,7 +484,6 @@
 
     TextMatrixViz.prototype._makeCircles = function() {
       var active, dpoints, i, nm, nmSubs, v, _i, _len, _ref, _results;
-      console.log(this.start, this.end);
       _ref = this.tm.header;
       _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
