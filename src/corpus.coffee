@@ -20,20 +20,15 @@ class TextMatrix
     log: ->
         postpro = (num) ->
             if num != -Infinity then num else 0
-
         ([valar[0],(postpro(Math.log(v)) for v in valar[1])] for valar in @origin)
-
         #@logged=( [ar[0],(Math.log(v) for v in ar.slice(1))] for ar in @origin)
 
     sharesCalc: ->
-        
         percent= (ar) ->
             (a/totals[i] for a,i in ar)
-
         totals= {}
         for nm,i in @header
             totals[i]= d3.sum (v[1][i] for v in @origin)
-
         @shares= ( [v[0],percent(v[1])] for v in @origin)
 
     withShares: (modus) ->
@@ -52,7 +47,7 @@ class TextMatrix
         #@max= @maxf("ver")
 
     filterY: (f) ->
-        v= (itm for itm in @values when f(itm[0]))
+        v= (itm for itm in @origin when f(itm[0]))
         if v.length!=0
             if v.length < @values.length #notice if its was actually filtered
                 @fnsubset=f
@@ -79,16 +74,21 @@ class Handlers
         @_addShares()
         @_bashSelect()
         @_yFilter()
+        @predefs()
+        @insertContent()
 
     _yFilter: ->
         $(".submfiltery").click (e) =>
-            f= filterFunc($(".yregex").val())
+            regex=$(".yregex").val()
+            f= filterFunc(regex)
+            
             startI= parseInt $(".startrange").val()
             end= parseInt $(".endrange").val()
             @tm.filterY(f)
             @tmv.start= startI
             @tmv.end= end
             @tmv.render()
+
     _addSortVisibs: ->
         $("input[name='sorting']").click (e) =>
             val= $(e.target).val()
@@ -106,18 +106,35 @@ class Handlers
             nval= parseInt(val)
             @tmv.activate(opval,500,nval)
 
+    insertContent: ->
+        if forerun_src?
+            $.get(forerun_src,(d) ->
+                $(".forerun").html(d))
+
     _bashSelect: ->
         @tinp= $ ".catregex"
         $(".submcatregex").click =>
             f= filterFunc(@tinp.val())
             @filterVis(f)
+    predefs: ->
+        pre_menu=$('.predef_sel')
+        for e in predef
+            but=$("<button data-regex='#{e[1]}'>#{e[0]}</button>")
+            but.click (e) =>
+                r=$(e.target).data('regex')
+                f=filterFunc(r)
+                @filterVis(f)
+                visibs=$("input[name='visib']").filter(":checked")
+                first_vis=$(visibs[0]).data("pointer")
+                #TODO:sorting should be the first visible but works not this way
+                # console.log $("input[name='sorting'][data-pointer='#{first_vis}']")
+            pre_menu.append(but)
 
     filterVis: (f) ->
         $("input[name='visib']").each (i,e) =>
             $e= $(e)
             t= $e.data("pointer")
             if f(t)
-                console.log t
                 $e.prop("checked",true)
                 @tmv.activate(1,500,i)
             else
@@ -257,7 +274,6 @@ class TextMatrixViz
         [@x_scale,@y_scale]
 
     _makeCircles: ->
-        console.log @start,@end
         
         for nm,i in @tm.header
             nmSubs= (v[1][i] for v in @subs )
