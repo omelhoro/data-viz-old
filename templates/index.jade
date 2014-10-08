@@ -12,12 +12,14 @@ html(lang='en')
         script(type='text/javascript').
             google.load('visualization', '1.1', {'packages':['annotationchart','corechart','treemap','orgchart']})
     body
-        style body{background-color:transparent;max-width:800px;margin:auto; }
-        div.alert.alert-danger.jswarning You need to enable Javascript to view the site.
-        ul.nav.nav-pills.viz_menu
-        div#chart_wrapper
-            script(type='text/javascript') MAPCONTAINER='div#chart_div'
-            div#chart_div
-        script(type='text/javascript',src='static/js/bootstrap.min.js')
-        script(type='text/javascript',src='target/js/main.js')
+        style .container{background-color:transparent;max-width:800px;margin:auto;padding-top:70px; } #menu.viz_menu{max-width:60%;float:none;margin:auto;}
+        nav.navbar.navbar-inverse.navbar-static-top.navbar-fixed-top
+            ul#menu.nav.navbar-nav.viz_menu
+        div.container
+            div.alert.alert-danger.jswarning You need to enable Javascript to view the site.
+            div#chart_wrapper
+                script(type='text/javascript') MAPCONTAINER='div#chart_div'
+                div#chart_div
+            script(type='text/javascript',src='static/js/bootstrap.min.js')
+            script(type='text/javascript',src='target/js/main.js')
 
