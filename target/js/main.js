@@ -13,7 +13,8 @@
     rhythm: ["Rhythm & Biography", ['d3', '']],
     rhythm_dyn: ["Dynamics of Rhythm", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button><button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
     vot: ["VOT", ["d3 TODO: fixplot", 'htmlj']],
-    formants: ["Formants", ["d3", 'html_']]
+    formants: ["Formants", ["d3", 'html_']],
+    cv_plot: ["CV-related", ["", 'html_']]
   };
 
   menu = $(".viz_menu");
