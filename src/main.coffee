@@ -13,6 +13,7 @@ MAPS={
     vot: ["VOT",["d3 TODO: fixplot",'htmlj']]
     formants: ["Formants",["d3",'html_']]
     cv_plot: ["CV-related",["",'html_']]
+    maxqda_docs: ["MaxQDA",["",'html_']]
 }
 
 menu=($ ".viz_menu")
@@ -61,5 +62,5 @@ if subchoice?
         append_map(subchoice[0])
 else
     create_menu([])
-instant='lima_design'
+instant='maxqda_docs'
 ($ "##{instant}").click()
