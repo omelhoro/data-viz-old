@@ -10,20 +10,6 @@ I've made about <strong>1900 tags</strong> in my six months as student assistant
 </p>
 </div>"
 
-d3.json("./static/public_data/resp_kosovo_tree.json",(data) ->
-    el=document.getElementById('chart_div')
-    ($ text_tree).insertBefore($ el)
-    chart = new google.visualization.TreeMap(el)
-    data1=[data[0].concat("N")].concat((a.concat(0) for a in data.slice(1)))
-    d = google.visualization.arrayToDataTable(data1)
-    opts={animation:{duration: 300}}
-    google.setOnLoadCallback(chart.draw(d,opts))
-    #chart1 = new google.visualization.OrgChart(document.getElementById('chart_div_org'))
-    d = google.visualization.arrayToDataTable(data)
-    opts={size:"small",allowCollapse:true,animation:{duration: 300}}
-    #google.setOnLoadCallback(chart1.draw(d,opts))
-)
-
 makeData = (data) ->
     format = (d) ->
         [[y,m,d],[n,an]]=d
@@ -33,7 +19,19 @@ makeData = (data) ->
     google.visualization.arrayToDataTable(a)
 
 text_hist="<p>This plot shows how many documents were found in <strong>relation to the time and events</strong> of the Kosovo case. The timeline shows the years '98 and '99 by a step of half a month. Totally I've collected about <strong>250 documents</strong> from <strong>Duma deputies, ministers,president Yelstin and generals</strong> from a text-database <a href='http://integrumworld.com'>Integrum</a> which is a nice source for qualitative studies.</p>"
-d3.json("./static/public_data/resp_kosovo_hist.json", (data) ->
+
+tree_draw= (data)->
+    el=document.getElementById('chart_div')
+    ($ text_tree).insertBefore($ el)
+    chart = new google.visualization.TreeMap(el)
+    data1=[data[0].concat("N")].concat((a.concat(0) for a in data.slice(1)))
+    d = google.visualization.arrayToDataTable(data1)
+    opts={animation:{duration: 300}}
+    google.setOnLoadCallback(chart.draw(d,opts))
+    d = google.visualization.arrayToDataTable(data)
+    opts={size:"small",allowCollapse:true,animation:{duration: 300}}
+
+hist_draw = (data) ->
     d=makeData(data)
     el=document.getElementById('chart_div_anno')
     chart = new google.visualization.AnnotationChart(el)
@@ -45,4 +43,8 @@ d3.json("./static/public_data/resp_kosovo_hist.json", (data) ->
     }
     google.setOnLoadCallback(chart.draw(d,opts))
     ($ text_hist).insertBefore($ el)
+
+d3.json("./static/public_data/claiming_respect.json",(data) ->
+    tree_draw(data["kosovo_freq"])
+    hist_draw(data["kosovo_hist"])
 )
