@@ -49,17 +49,21 @@ create_menu = (sub_choice) ->
   filter_choice=if sub_choice.length==0 then Object.keys(MAPS) else sub_choice
   if sub_choice.length==1
     $(".navbar").remove()
+    append_map(sub_choice[0])
   for k,v of MAPS
     if k in filter_choice
       l=($ "<li id=#{k}><a href='#'>#{v[0]}</a></li>")
       l.click lead_to(k,l)
       menu.append(l)
+  if instant in sub_choice
+    ($ "##{instant}").click()
+  else
+    ($ "li",menu).first().click()
+
 
 $(".jswarning").remove()
 
-# subchoice=['lima_design'] #parent.viz_choice
+# subchoice=['corpus_of_syl','kosovo_tree','maxqda_docs'] #parent.viz_choice
 subchoice=parent.viz_choice
-console.log subchoice,subchoice?,
-if subchoice? then create_menu(subchoice) else create_menu([])
 instant='maxqda_docs'
-($ "##{instant}").click()
+if subchoice? then create_menu(subchoice) else create_menu([])

@@ -51,7 +51,7 @@
   };
 
   create_menu = function(sub_choice) {
-    var filter_choice, k, l, lead_to, v, _results;
+    var filter_choice, k, l, lead_to, v;
     lead_to = function(target, el) {
       var lead;
       lead = function(e) {
@@ -62,30 +62,34 @@
     filter_choice = sub_choice.length === 0 ? Object.keys(MAPS) : sub_choice;
     if (sub_choice.length === 1) {
       $(".navbar").remove();
+      append_map(sub_choice[0]);
     }
-    _results = [];
     for (k in MAPS) {
       v = MAPS[k];
       if (__indexOf.call(filter_choice, k) >= 0) {
         l = $("<li id=" + k + "><a href='#'>" + v[0] + "</a></li>");
         l.click(lead_to(k, l));
-        _results.push(menu.append(l));
-      } else {
-        _results.push(void 0);
+        menu.append(l);
       }
     }
-    return _results;
+    if (__indexOf.call(sub_choice, instant) >= 0) {
+      return ($("#" + instant)).click();
+    } else {
+      return ($("li", menu)).first().click();
+    }
   };
 
   $(".jswarning").remove();
 
   subchoice = parent.viz_choice;
 
-  console.log(subchoice, subchoice != null, subchoice != null ? create_menu(subchoice) : create_menu([]));
-
   instant = 'maxqda_docs';
 
-  ($("#" + instant)).click();
+  if (subchoice != null) {
+    create_menu(subchoice);
+  } else {
+    create_menu([]);
+  }
 
 }).call(this);
 
