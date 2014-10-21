@@ -105,7 +105,6 @@ class HeatView
                     .attr("class","axes")
         [svg,body,axes]
 
-
     _make_axes: ->
         fnAxis= (scale,fnGet,orient) ->
             d3.svg.axis().scale(scale).tickFormat( (d,i) -> fnGet(i) ).orient(orient)
