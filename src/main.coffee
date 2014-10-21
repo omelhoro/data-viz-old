@@ -41,29 +41,25 @@ append_map = (target,el) ->
   chart_wrapper.append ($ content)
   chart_wrapper.append js_lnk
 
-create_menu = (subchoice) ->
+create_menu = (sub_choice) ->
   lead_to=(target,el) ->
     lead = (e) ->
       append_map(target,el)
     lead
-  if subchoice.length>1
-    new_choices=0 #TODO: filter by subchoices
+  filter_choice=if sub_choice.length==0 then Object.keys(MAPS) else sub_choice
+  if sub_choice.length==1
+    $(".navbar").remove()
   for k,v of MAPS
-    l=($ "<li id=#{k}><a href='#'>#{v[0]}</a></li>")
-    l.click lead_to(k,l)
-    menu.append(l)
+    if k in filter_choice
+      l=($ "<li id=#{k}><a href='#'>#{v[0]}</a></li>")
+      l.click lead_to(k,l)
+      menu.append(l)
 
 $(".jswarning").remove()
 
 # subchoice=['lima_design'] #parent.viz_choice
 subchoice=parent.viz_choice
-if subchoice?
-  if subchoice.length>1
-    create_menu(subchoice)
-  else
-    $(".navbar").remove()
-    append_map(subchoice[0])
-else
-  create_menu([])
+console.log subchoice,subchoice?,
+if subchoice? then create_menu(subchoice) else create_menu([])
 instant='maxqda_docs'
 ($ "##{instant}").click()
