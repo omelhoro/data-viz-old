@@ -369,9 +369,9 @@
           }));
 
           /*
-          				.style "stroke", (d,j) => 
-          					if @tm.yTags[i]=="112199" or @tm.xTags[j]=="rjukzak"
-          						"red"
+          .style "stroke", (d,j) =>
+              if @tm.yTags[i]=="112199" or @tm.xTags[j]=="rjukzak"
+                  "red"
            */
         } else {
           _results.push(this.body.selectAll(".row_" + i).data(r).enter().append("rect").attr({
@@ -411,78 +411,56 @@
     function Handler(tm, mv) {
       this.tm = tm;
       this.mv = mv;
-      this.setButtons();
+      this.renderAxisCats();
     }
 
-    Handler.prototype.dropButts = function(dim) {
-      var ax, bBox, catSvg, cats, choiceG, ctm, height, t, width;
-      this.mv.svg.selectAll(".Choice").remove();
-      ax = d3.select("." + dim + "axisSec");
-      t = d3.select("." + dim + "Title");
-      bBox = t[0][0].getBBox();
-      ctm = t[0][0].getCTM();
-      console.log(dim, bBox, t[0][0].getCTM());
-      cats = dim === "y" ? this.tm.catsOfY : this.tm.catsOfX;
-      choiceG = this.mv.svg.append("g").attr({
-        "class": "Choice",
-        transform: "translate(" + (bBox.width + bBox.x + ctm.e) + "," + (bBox.height + bBox.y + ctm.f) + ")"
-      });
-      height = this.mv.y_scale.rangeBand() * 2;
-      width = d3.max(_.map(cats, function(x) {
-        return x.length;
-      })) * height / 1.5;
-      catSvg = choiceG.selectAll(".catChoices").data(cats).enter().append("g").attr({
-        "class": "catChoices",
-        transform: function(d, i) {
-          return "translate(0," + (i * height) + ")";
+    Handler.prototype.renderAxisCats = function(tm, mv) {
+      var addList, catsX, catsY, filter;
+      if (tm == null) {
+        tm = this.tm;
+      }
+      if (mv == null) {
+        mv = this.mv;
+      }
+      filter = function(itm) {
+        return itm.indexOf("Log") === -1;
+      };
+      addList = function(dim, catn, cat) {
+        var c, eli, eul, _i, _len, _ref;
+        eul = $("<ul class='cats-list list-group " + catn + "'>" + catn + "</ul>");
+        _ref = (function() {
+          var _j, _len, _results;
+          _results = [];
+          for (_j = 0, _len = cat.length; _j < _len; _j++) {
+            c = cat[_j];
+            if (filter(c)) {
+              _results.push(c);
+            }
+          }
+          return _results;
+        })();
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          c = _ref[_i];
+          eli = $("<li class='' data-filter='" + c + "'><label><input type='radio'value='" + c + "' name='" + catn + "'/>" + c + "</label></li>");
+          eul.append(eli);
         }
-      });
-      catSvg.data(cats).append("rect").attr({
-        x: 0,
-        y: 0,
-        width: width,
-        height: height,
-        fill: "white"
-      });
-      catSvg.append("text").attr({
-        x: 0,
-        y: height,
-        "font-size": height
-      }).text(function(d, i) {
-        return d;
-      });
-      catSvg.data(cats).append("rect").attr({
-        "class": function(d, i) {
-          return dim + "_" + i;
-        },
-        x: 0,
-        y: 0,
-        width: width,
-        height: height,
-        opacity: 0.5,
-        fill: "green"
-      });
-      return $(".catChoices > rect").click((function(_this) {
-        return function(e) {
-          var tag;
-          tag = e.target.className.baseVal;
-          _this.setSecAxis(tag);
-          return choiceG.remove();
-        };
-      })(this));
-    };
-
-    Handler.prototype.setButtons = function() {
-      $(".xTitle").click((function(_this) {
-        return function() {
-          return _this.dropButts("x");
-        };
-      })(this));
-      return $(".yTitle").click((function(_this) {
-        return function() {
-          return _this.dropButts("y");
-        };
-      })(this));
+        eul.click(function(e) {
+          var trg;
+          trg = $(e.target);
+          tm.setCurCat(dim, trg.val());
+          if (dim === "y") {
+            tm.sortVert();
+          } else {
+            tm.sortHori();
+          }
+          return mv.render();
+        });
+        return ($("#choices")).prepend(eul);
+      };
+      catsX = this.tm.catsOfX;
+      catsY = this.tm.catsOfY;
+      addList("x", "X-Axis", catsX);
+      return addList("y", "Y-Axis", catsY);
     };
 
     Handler.prototype.setSecAxis = function(tag) {
@@ -494,34 +472,23 @@
       return this.update(dim);
     };
 
-    Handler.prototype.update = function(dim) {
-      if (dim === "y") {
-        this.tm.sortVert();
-      } else {
-        this.tm.sortHori();
-      }
-      this.mv.render();
-      return this.setButtons();
-    };
-
     return Handler;
 
   })();
 
   dataY = function(callback) {
-    return d3.csv("./static/data/lima_bio.csv", callback);
+    return d3.csv("./static/data/lima/lima_bio.csv", callback);
   };
 
   dataMain = function(dataSecY) {
-    return d3.csv("./static/data/wordfreq_t2.csv", function(dataSecX) {
-      return d3.text("./static/data/card_slides.csv", function(data) {
+    return d3.csv("./static/data/lima/wordfreq_t2.csv", function(dataSecX) {
+      return d3.text("./static/data/lima/card_slides.csv", function(data) {
         var handler, matrix, view;
         data = d3.csv.parseRows(data);
         matrix = new Matrix(data, dataSecX, dataSecY);
         view = new HeatView(matrix, 500, 700, 50);
         handler = new Handler(matrix, view);
-        view.render();
-        return handler.setButtons();
+        return view.render();
       });
     });
   };

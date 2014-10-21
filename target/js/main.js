@@ -6,6 +6,7 @@
 
   MAPS = {
     kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
+    maxqda_docs: ["Respect-Docs", ["", 'html_']],
     corpus_of_syl: ["Syllables", ['d3', "htmlj<script type='text/javascript'>forerun_src='templates/corpus_of_sylls.html';predef=[['Russian influenced models','1|2|3'],['Western influenced models','4|5']];data_src='./static/public_data/syl_subset.csv'</script>"]],
     lima_design: ["Lima Project", ['', 'html_']],
     heatplot: ["Cards", ["d3", 'html_']],
@@ -14,8 +15,7 @@
     rhythm_dyn: ["Dynamics of Rhythm", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button><button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
     vot: ["VOT", ["d3 TODO: fixplot", 'htmlj']],
     formants: ["Formants", ["d3", 'html_']],
-    cv_plot: ["CV-related", ["", 'html_']],
-    maxqda_docs: ["MaxQDA", ["", 'html_']]
+    cv_plot: ["CV-related", ["", 'html_']]
   };
 
   menu = $(".viz_menu");
