@@ -32,7 +32,7 @@ stats = (a1,a2)->
 r=stats([1..5])
 console.log [r.mean(),r.dev(),r.varco(),r.npvi(),r.rpvi()]
 
-lineChart= (a,r=10) ->
+lineChart= (a,r=4) ->
     range=(x for x in [0..a.length] by r)
     pairs_a=d3.pairs(range)
     r=([i].concat(rhythmMetric(stats(a.slice(e[0],e[1])))) for e,i in pairs_a)
@@ -50,38 +50,28 @@ getArray = (i,isVow,data)->
 
 update_chart = (charts,data,opts) ->
     i=1
-    nbin=5
-    d={i:1,nbin:5,isVow:false}
-    draw_charts = ->
-        [k,a]=getArray(d.i,d.isVow,data)
-        [s,e]=calc_start_end(a,d.nbin)
-        let_type= if d.isVow then "Vowel" else "Consonant"
-        opts.title="#{k}-Start-#{let_type}"
-        charts[0].draw(s,opts)
-        opts.title="#{k}-End-#{let_type}"
-        charts[1].draw(e,opts)
-
     isVow=true
     ($ ".inter-chart").click (e) ->
         t=e.target
         id= $(t).prop("id")
         if id=="next-part"
-            d.i++
+            i++
         else
-            d.isVow=not d.isVow
-        draw_charts()
-    ($ ".bin-update").click (e) ->
-        d.nbin=parseInt(($ ".nbin-field").val())
-        draw_charts()
+            isVow=not isVow
+        [k,a]=getArray(i,isVow,data)
+        [s,e]=calc_start_end(a)
+        opts.title=k
+        charts[0].draw(s,opts)
+        charts[1].draw(e,opts)
 
-calc_start_end = (d,n=5) ->
-    [lineChart(d[0],n),lineChart(d[1],n)]
+calc_start_end = (d) ->
+    [lineChart(d[0]),lineChart(d[1])]
 
 update_opts= (o,n,v) ->
     o[n]=v
     o
 
-d3.json("./static/data/lima_rhythm_single_raw.json", (data) ->
+d3.json("./static/data/lima/lima_rhythm_single_raw.json", (data) ->
     [k,a]=getArray(0,true,data)
     [startd,endd]=calc_start_end(a)
     chartStart = new google.visualization.LineChart(document.getElementById('chart_div'))
