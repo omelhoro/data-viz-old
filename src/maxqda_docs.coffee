@@ -1,14 +1,13 @@
-text=($ "#max-qda-doc").val()
-codes=($ "#codes").val()
-NEW_TEXT=($ "#text")
-ECODES_COL=($ "#codes-col")
-ECODES_COLSVG=(d3.select "#codes-col-svg")
-CSCALE=d3.scale.category20()
-COL_LEFT=ECODES_COL.width()
-EDOC_POOL=($ "#maxqda-doc-pool")
-
+# text=($ "#max-qda-doc").val()
+# codes=($ "#codes").val()
 class MaxQDADoc
+
     constructor: (k,doc) ->
+        @NEW_TEXT=($ "#text")
+        @ECODES_COL=($ "#codes-col")
+        @ECODES_COLSVG=(d3.select "#codes-col-svg")
+        @CSCALE=d3.scale.category20()
+        @COL_LEFT=@ECODES_COL.width()
         @codes=doc['codes']
         @text=doc['text']
         @sent_pool=@append_text(@text)
@@ -20,25 +19,29 @@ class MaxQDADoc
         #     @position_fn(el)
 
         @position_fn=@position_element(20,"svg")
-        ECODES_COLSVG.selectAll("*").remove()
+        @ECODES_COLSVG.selectAll("*").remove()
         for c in @srt_codes
             el=@append_code_svg(c,@sent_pool)
             @position_fn(el)
-        ECODES_COLSVG.attr("height",NEW_TEXT.height())
+        @ECODES_COLSVG.attr("height",@NEW_TEXT.height())
+        $(".marked-code").tooltip({
+            'container': 'body',
+            'placement': 'auto'
+        })
 
     append_text:(t) ->
         sent = (i,s) ->
             if s==""
                 s=[i,($ "<p></p>" )]
             else
-                s=[i,($ "<span class='sent' data-sentix=#{i}>#{i}-#{s}</span>" )]
+                s=[i,($ "<span class='sent' data-sentix=#{i}>#{s}</span>" )]
         pool={}
-        NEW_TEXT.empty()
+        @NEW_TEXT.empty()
         tsplt=t.split("\n")
         tsplt=if tsplt[0].trim()=="" then tsplt.slice(1) else tsplt
         for l,i in tsplt
             newt=sent(i,l)
-            NEW_TEXT.append(newt[1])
+            @NEW_TEXT.append(newt[1])
             pool[i+1]=newt[1]
             # pool.push(newt)
         pool
@@ -56,10 +59,12 @@ class MaxQDADoc
                     marked_pool.push(el)
                     el)
                 sent.html(new_ts)
+            # ECODE_EXP.text(c[0])
         unselect = (event) ->
             for sent in sents
                 code=sent.children(".selected-code")
                 code.contents().unwrap()
+            # ECODE_EXP.text("")
         [select,unselect]
 
     append_code_svg: (c,db) ->
@@ -67,9 +72,10 @@ class MaxQDADoc
         [ se,ee ]=[db[s],db[e]]
         [ sep,eep ]=[se.position(),ee.position()]
         codes=c[0].split("\\")
-        color=CSCALE(codes[1])
+        color=@CSCALE(codes[1])
         # elm=(d3.select "rect")
-        elm=ECODES_COLSVG.append("rect").attr({class:"marked-code","title":"#{c[0]}"})
+        text=c[0].replace(/\\/g," -> ")
+        elm=@ECODES_COLSVG.append("rect").attr({class:"marked-code","title":"#{text}"})
         toppos=sep['top']
         height=if s==e then se.height() else (eep['top']+ee.height())-sep['top']
         elm.attr({y:toppos,x:80})
@@ -84,12 +90,12 @@ class MaxQDADoc
         [ se,ee ]=[db[s],db[e]]
         [ sep,eep ]=[se.position(),ee.position()]
         codes=c[0].split("\\")
-        color=CSCALE(codes[1])
+        color=@CSCALE(codes[1])
         elm=($ "<div class='marked-code' title='#{c[0]}'></div>")
-        ECODES_COL.append(elm)
+        @ECODES_COL.append(elm)
         toppos=sep['top']
         height=if s==e then se.height() else (eep['top']+ee.height())-sep['top']
-        elm.css({top:toppos,left:COL_LEFT})
+        elm.css({top:toppos,left:@COL_LEFT})
         elm.css({ height:height})
         elm.css({"background-color":color})
         [hover,unhover]=@render_selection(c,db)
@@ -175,7 +181,7 @@ class MaxQDADoc
 #         # pool.push(newt)
 #     pool
 
-# CSCALE=d3.scale.category20()
+# cscalE=d3.scale.category20()
 
 # render_selection=(c,db) ->
 #     c_range=[c[1]..c[2]]
@@ -253,6 +259,7 @@ class MaxQDADoc
 #     position(el)
 
 $.get("static/public_data/claiming_respect.json",(d)->
+    EDOC_POOL=($ "#maxqda-doc-pool")
     data=d["kosovo_docs"]
     render_choice = (e) ->
         c=EDOC_POOL.children(":selected")[0]
