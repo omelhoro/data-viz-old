@@ -19,9 +19,15 @@
 }
 .maxqda-col{
     display:inline-block;
+    margin-top:30px
 }
+
 .code-wrap{
     position:relative;
+}
+div#code-explanation{
+    position:fixed;
+    height:10px;
 }
     </style>
     <div>
@@ -115,13 +121,14 @@
 <!-- </div> -->
 <!-- </div> -->
 <div id='object-maxqda'>
-    Here you can look at my taggings in 10 of the 80 documents. The names of tags should be mostly self-explanatory. For tags with "Problem Identification" you must note that the problem is the unrespectful behaviour of others towards Russia.
-    <select id='maxqda-doc-pool'></select></div>
+    Here you can look at my taggings in 10 of the 80 documents. The names of tags should be mostly self-explanatory. For tags with "Problem Identification" you must note that the problem is the unrespectful behaviour of others towards Russia. <strong>Hover</strong> on the rectanges to view the selection and the tagged meaning.
+    <p><select id='maxqda-doc-pool'></select></p></div>
     <div class='col-xs-2 tags-col maxqda-col' 
         ><svg id='codes-col-svg' width=100px height=800px></svg>
     </div>
     <div id='text' class='col-xs-10 text-col maxqda-col'>
 </div>
+<script type='text/javascript' src='target/js/maxqda_docs.js'></script>
 </div>
 </div>
 
