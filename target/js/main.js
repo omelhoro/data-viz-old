@@ -6,14 +6,14 @@
   $ = jQuery;
 
   MAPS = {
-    kosovo_tree: ["Kosovo-Tree", ['', "<h3>Events and Number of Docs</h3><div id='chart_div_anno'></div><div id=chart_div_org></div>"]],
+    kosovo_tree: ["Kosovo-Tree", ['', "html_"]],
     maxqda_docs: ["Respect-Docs", ["", 'html_']],
-    corpus_of_syl: ["Syllables", ['d3', "htmlj<script type='text/javascript'>forerun_src='templates/corpus_of_sylls.html';predef=[['Russian influenced models','1|2|3'],['Western influenced models','4|5']];data_src='./static/public_data/syl_subset.csv'</script>"]],
+    syllables: ["Syllables", ['d3', "html_"]],
     lima_design: ["Lima Project", ['', 'html_']],
     heatplot: ["Cards", ["d3", 'html_']],
-    corpus_of_words: ["Child Corpus", ['d3', "htmlj<script type='text/javascript'>forerun_src='templates/corpus_of_words.html';predef=[['Task 4','*4'],['Task 5','*5'],['Task 6','*6']];data_src='./static/data/lima_corpus_group_lemmas.csv'</script>"]],
+    lima_corpus: ["Child Corpus", ['d3', "html"]],
     rhythm: ["Rhythm & Biography", ['d3', '']],
-    rhythm_dyn: ["Dynamics of Rhythm", ['', "<div id='chart_div_end'></div><button id='next-part' class='inter-chart'>Next participant</button><button id='toggle-basis' class='inter-chart'>Toggle letter-class</button><input class='nbin-field'  type=number value=5><button class='bin-update'>Update</button>"]],
+    dynam_rhythm: ["Dynamics of Rhythm", ['', "html_"]],
     vot: ["VOT", ["d3 TODO: fixplot", 'htmlj']],
     formants: ["Formants", ["d3", 'html_']],
     cv_plot: ["CV-related", ["", 'html_']]
@@ -27,7 +27,7 @@
     var content, dir, dom_target, js_lnk, js_target, name, viz_class, _ref, _ref1;
     chart_wrapper.empty();
     _ref = MAPS[target], name = _ref[0], (_ref1 = _ref[1], viz_class = _ref1[0], content = _ref1[1]);
-    dom_target = $("<div id=chart_div></div>");
+    dom_target = $("<div id=template></div>");
     chart_wrapper.append(dom_target);
     dom_target.prop("class", "").prop("style", "");
     js_target = target.split("_of")[0];
@@ -46,11 +46,10 @@
         return dom_target.html(d);
       });
     }
-    chart_wrapper.append($(content));
-    return chart_wrapper.append(js_lnk);
+    return chart_wrapper.append($(content));
   };
 
-  create_menu = function(sub_choice) {
+  create_menu = function(sub_choice, instant) {
     var filter_choice, k, l, lead_to, v;
     lead_to = function(target, el) {
       var lead;
@@ -72,7 +71,7 @@
         menu.append(l);
       }
     }
-    if (__indexOf.call(sub_choice, instant) >= 0) {
+    if (__indexOf.call(filter_choice, instant) >= 0) {
       return ($("#" + instant)).click();
     } else {
       return ($("li", menu)).first().click();
@@ -83,12 +82,12 @@
 
   subchoice = parent.viz_choice;
 
-  instant = 'maxqda_docs';
+  instant = 'dynam_rhythm';
 
   if (subchoice != null) {
-    create_menu(subchoice);
+    create_menu(subchoice, instant);
   } else {
-    create_menu([]);
+    create_menu([], instant);
   }
 
 }).call(this);

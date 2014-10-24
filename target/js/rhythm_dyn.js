@@ -89,7 +89,7 @@
   lineChart = function(a, r) {
     var data, e, h, i, pairs_a, range, x;
     if (r == null) {
-      r = 10;
+      r = 4;
     }
     range = (function() {
       var _i, _ref, _results;
@@ -126,47 +126,28 @@
   };
 
   update_chart = function(charts, data, opts) {
-    var d, draw_charts, i, isVow, nbin;
+    var i, isVow;
     i = 1;
-    nbin = 5;
-    d = {
-      i: 1,
-      nbin: 5,
-      isVow: false
-    };
-    draw_charts = function() {
-      var a, e, k, let_type, s, _ref, _ref1;
-      _ref = getArray(d.i, d.isVow, data), k = _ref[0], a = _ref[1];
-      _ref1 = calc_start_end(a, d.nbin), s = _ref1[0], e = _ref1[1];
-      let_type = d.isVow ? "Vowel" : "Consonant";
-      opts.title = "" + k + "-Start-" + let_type;
-      charts[0].draw(s, opts);
-      opts.title = "" + k + "-End-" + let_type;
-      return charts[1].draw(e, opts);
-    };
     isVow = true;
-    ($(".inter-chart")).click(function(e) {
-      var id, t;
+    return ($(".inter-chart")).click(function(e) {
+      var a, id, k, s, t, _ref, _ref1;
       t = e.target;
       id = $(t).prop("id");
       if (id === "next-part") {
-        d.i++;
+        i++;
       } else {
-        d.isVow = !d.isVow;
+        isVow = !isVow;
       }
-      return draw_charts();
-    });
-    return ($(".bin-update")).click(function(e) {
-      d.nbin = parseInt(($(".nbin-field")).val());
-      return draw_charts();
+      _ref = getArray(i, isVow, data), k = _ref[0], a = _ref[1];
+      _ref1 = calc_start_end(a), s = _ref1[0], e = _ref1[1];
+      opts.title = k;
+      charts[0].draw(s, opts);
+      return charts[1].draw(e, opts);
     });
   };
 
-  calc_start_end = function(d, n) {
-    if (n == null) {
-      n = 5;
-    }
-    return [lineChart(d[0], n), lineChart(d[1], n)];
+  calc_start_end = function(d) {
+    return [lineChart(d[0]), lineChart(d[1])];
   };
 
   update_opts = function(o, n, v) {
@@ -174,7 +155,7 @@
     return o;
   };
 
-  d3.json("./static/data/lima_rhythm_single_raw.json", function(data) {
+  d3.json("./static/data/lima/lima_rhythm_single_raw.json", function(data) {
     var a, chartEnd, chartStart, endd, k, opts, startd, _ref, _ref1;
     _ref = getArray(0, true, data), k = _ref[0], a = _ref[1];
     _ref1 = calc_start_end(a), startd = _ref1[0], endd = _ref1[1];
