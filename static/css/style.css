@@ -1,0 +1,93 @@
+/*rhythm*/
+div#options{
+    float:right;
+    margin: 10px;
+}
+
+svg{
+	border: 1px solid grey;
+
+}
+
+input#x_axis:nth-of-type(1) {
+
+	checked: true;
+}
+
+.Cphon{
+	color: blue;
+}
+.Vphon{
+	color: green;
+}
+
+#word_list{
+	float: left;
+
+}
+#pic_stat{
+	float: left;
+}
+#stats{
+	float: left;
+}
+.word_freq{
+	margin: 10px;
+}
+.card_slide:hover{
+    color: orange;
+
+}
+.d3 * rect:hover{
+    fill: orange;
+}
+
+
+/*for card_slides_t*/
+
+/*
+table tr:first-child td {
+
+	transform: rotate(90deg);
+		transform-origin: right center 5;
+}
+*/
+.cards{
+	width: 10px;
+	height: 6px;
+}
+
+.known{
+	background-color: green;
+}
+.unknown{
+	background-color: red;
+}
+
+td{
+	width: 30px;
+
+}
+
+/*Corpus class */
+.d3 * path{
+		fill: None;
+
+}
+.grid-line{
+        	stroke: black;
+        	stroke-width: 0.1;
+}
+path.domain{
+		shape-rendering: crispEdges;
+		stroke: grey;
+}
+
+/* for debugging heat map*/
+g.axes text{
+		dominant-baseline:text-after-edge;
+}
+.hidden{
+	opacity:0 ;
+
+}
