@@ -85,6 +85,6 @@ class Session
             fill: (d,i) => @color(d[3])
             }).text( (d,i) -> d[3].replace("v",""))
 
-d3.json("./static/data/lima_formants_single.json", (data) ->
+d3.json("./static/data/lima/lima_formants_single.json", (data) ->
     session= new Session(data)
     $("input").first().click())
