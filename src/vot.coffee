@@ -136,5 +136,5 @@ class Session
 					})
 				.text( (d,i) => @partAr[i]+ ": " +d.length)
 
-d3.json("./static/data/lima_vot_group_vals.json", (data) ->
+d3.json("./static/data/lima/lima_vot_group_vals.json", (data) ->
     session= new Session(data))
