@@ -12,17 +12,11 @@ data=[["","","",""]
 
 
 
-d3.json("./static/public_data/resp_kosovo_tree.json",(_) ->
-    el=document.getElementById('chart_div')
-    chart = new google.visualization.Timeline(el)
-    d = google.visualization.arrayToDataTable(data)
-    opts={
-        timeline: {showRowLabels:false}
-        # width:800
-    }
-    google.setOnLoadCallback(chart.draw(d,opts))
-    #chart1 = new google.visualization.OrgChart(document.getElementById('chart_div_org'))
-    #d = google.visualization.arrayToDataTable(data)
-    #opts={size:"small",allowCollapse:true,animation:{duration: 300}}
-    #google.setOnLoadCallback(chart1.draw(d,opts))
-)
+el=document.getElementById('chart_div')
+chart = new google.visualization.Timeline(el)
+d = google.visualization.arrayToDataTable(data)
+opts={
+  timeline: {showRowLabels:false}
+  # width:800
+}
+google.setOnLoadCallback(chart.draw(d,opts))
