@@ -72,7 +72,7 @@ class MaxQDADoc
         [ se,ee ]=[db[s],db[e]]
         [ sep,eep ]=[se.position(),ee.position()]
         codes=c[0].split("\\")
-        color=@CSCALE(codes[1])
+        color=@CSCALE(codes[0])
         # elm=(d3.select "rect")
         text=c[0].replace(/\\/g," -> ")
         elm=@ECODES_COLSVG.append("rect").attr({class:"marked-code","title":"#{text}"})
@@ -271,6 +271,6 @@ $.get("static/public_data/claiming_respect.json",(d)->
         opt=$("<option value='#{k}'>#{k}</option>")
         EDOC_POOL.append(opt)
     EDOC_POOL.change(render_choice )
-    fcode=keys[4]
+    fcode=keys[0]
     new MaxQDADoc(fcode,data[fcode])
 )
