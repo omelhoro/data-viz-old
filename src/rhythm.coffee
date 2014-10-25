@@ -9,6 +9,8 @@ makeParsers= (d) ->
 			when "p" then (i) -> Math.round(parseFloat(i)*100)
 	parsers
 
+MAPCONTAINER=BIO_RHYTHM
+
 class Session
 
 	constructor: (@data,@bio_data) ->
@@ -194,6 +196,6 @@ class Session
 		@update=true
 
 
-d3.json("./static/data/lima_rhythm_single.json",(rhythm_data) ->
-	d3.csv("./static/data/lima_bio.csv", (bio_data)=>
+d3.json("./static/data/lima/lima_rhythm_single.json",(rhythm_data) ->
+	d3.csv("./static/data/lima/lima_bio.csv", (bio_data)=>
 		session= new Session(rhythm_data,bio_data)))
