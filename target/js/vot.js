@@ -189,7 +189,7 @@
 
   })();
 
-  d3.json("./static/data/lima_vot_group_vals.json", function(data) {
+  d3.json("./static/data/lima/lima_vot_group_vals.json", function(data) {
     var session;
     return session = new Session(data);
   });

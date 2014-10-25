@@ -115,7 +115,7 @@
 
   })();
 
-  d3.json("./static/data/lima_formants_single.json", function(data) {
+  d3.json("./static/data/lima/lima_formants_single.json", function(data) {
     var session;
     session = new Session(data);
     return $("input").first().click();

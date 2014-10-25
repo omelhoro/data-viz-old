@@ -106,7 +106,7 @@
       _ref1 = [db[s], db[e]], se = _ref1[0], ee = _ref1[1];
       _ref2 = [se.position(), ee.position()], sep = _ref2[0], eep = _ref2[1];
       codes = c[0].split("\\");
-      color = this.CSCALE(codes[1]);
+      color = this.CSCALE(codes[0]);
       text = c[0].replace(/\\/g, " -> ");
       elm = this.ECODES_COLSVG.append("rect").attr({
         "class": "marked-code",
@@ -269,7 +269,7 @@
       EDOC_POOL.append(opt);
     }
     EDOC_POOL.change(render_choice);
-    fcode = keys[4];
+    fcode = keys[0];
     return new MaxQDADoc(fcode, data[fcode]);
   });
 
