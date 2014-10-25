@@ -8,9 +8,8 @@ MAPS={
   lima_design:["Lima Project",['','html_']],
   heatplot: ["Cards",["d3",'html_']]
   lima_corpus:["Child Corpus",['d3',"html"]]
-  rhythm: ["Rhythm & Biography",['d3','']]
-  dynam_rhythm:["Dynamics of Rhythm", ['',"html_"]]
-  vot: ["VOT",["d3 TODO: fixplot",'htmlj']]
+  rhythm: ["Rhythm",['d3','html_']]
+  vot: ["VOT",["d3 TODO: fixplot",'html']]
   formants: ["Formants",["d3",'html_']]
   cv_plot: ["CV-related",["",'html_']]
 }
@@ -64,5 +63,5 @@ $(".jswarning").remove()
 
 # subchoice=['corpus_of_syl'] #parent.viz_choice
 subchoice=parent.viz_choice
-instant='dynam_rhythm'
+instant='kosovo_tree'
 if subchoice? then create_menu(subchoice,instant) else create_menu([],instant)
